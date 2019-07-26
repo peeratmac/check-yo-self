@@ -6,20 +6,29 @@ class ToDoList {
     this.urgent = toDoObject.urgent;
   }
 
-  saveToStorage() {
-    // TODO:  save to storage
+  saveToStorage(toDosArray) {
+    // save to storage
+    localStorage.setItem('toDoObjects', JSON.stringify(toDosArray));
   }
 
-  deleteFromStorage() {
-    // TODO:  delete from storage
+  deleteFromStorage(toDoIndex) {
+    // delete from storage
+    toDosArray.splice(toDoIndex, 1);
+    this.saveToStorage(toDosArray);
   }
 
-  updateToDo() {
-    // TODO:  update todo's title and urgency
+  updateToDo(urgent) {
+    // update todo's title and urgency
+    // TODO:  update todo's title
+    this.urgent = urgent;
+    this.saveToStorage(toDosArray);
   }
 
-  updateTask() {
-    // TODO:  update task's content and if it has been completed
+  updateTask(taskIndex, check) {
+    // update task's content and if it has been completed
+    // TODO:  update task's content
+    this.tasks[taskIndex].check = check;
+    this.saveToStorage(toDosArray);
   }
 }
 
@@ -28,5 +37,9 @@ class Task {
     this.id = taskObject.id;
     this.taskContent = taskObject.taskContent;
     this.checked = taskObject.checked || false;
+  }
+
+  saveToStorage(tasksArray) {
+    localStorage.setItem('taskObjects', JSON.stringify(tasksArray));
   }
 }
