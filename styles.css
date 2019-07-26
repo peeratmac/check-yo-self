@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'nav main main'
+    'nav main main'
+    'nav main main';
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+  width: 100vw;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  grid-area: header;
+  background: #1f1f3d;
+  color: #ffffff;
+  padding: 0px 10px;
+}
+
+.header__span {
+  color: #ffc30c;
+}
+
+.header__form {
+  display: flex;
+  align-items: center;
+}
+
+.header__form__img--search {
+  background: #f3f6f7;
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+}
+
+.header__form__input--search {
+  padding-left: 10px;
+  height: 40px;
+  width: 300px;
+}
+
+.nav {
+  display: flex;
+  background-color: #587a8a;
+  flex-direction: column;
+  grid-area: nav;
+  height: 100vh;
+}
+
+.nav__form__section--titleInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav__form__label--1 {
+  color: #f3f6f7;
+  margin: 0px 10px;
+  margin-top: 40px;
+  font-weight: 400;
+}
+
+.nav__form__section__input--title {
+  height: 40px;
+  margin: 0px 10px;
+  border: 2px solid #1f1f3d;
+}
+
+/* current task items appear here */
+.nav__form__section--tasks {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.nav__form__label--2 {
+  color: #f3f6f7;
+  margin: 0px 10px;
+  font-weight: 400;
+}
+
+.nav__form__section--addTask {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.nav__form__section__input--task {
+  display: flex;
+  height: 40px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  width: 100%;
+  border: 2px solid #1f1f3d;
+}
+
+.nav__form__section__img--add {
+  display: flex;
+  background-color: #1f1f3d;
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+  margin-top: -15px;
+}
+
+.nav__button--makeTask,
+.nav__button--clear,
+.nav__button--filter {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #1f1f3d;
+  border: 1px solid #1f1f3d;
+  color: #ffffff;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 40px;
+  font-weight: 800;
+}
+
+.nav__button--clear {
+  margin-bottom: 30px;
+}
+
+.nav__section--filter {
+  display: flex;
+  flex-direction: row;
+  border-top: 2px solid #3c6577;
+}
+
+.nav__button--filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 95%;
+}
+
+.main {
+  grid-area: main;
+  margin: 20px;
+}

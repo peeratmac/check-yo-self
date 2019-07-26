@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CHECK YO' SELF</title>
+    <link rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,800,800i&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__h1">
+        CHECK <span class="header__span">YO' </span>SELF
+      </h1>
+      <form class="header__form">
+        <img
+          class="header__form__img--search"
+          src="images/search.svg"
+          alt="Search Bar Icon"
+        />
+        <input
+          class="header__form__input--search"
+          type="text"
+          placeholder="SEARCH"
+        />
+      </form>
+    </header>
+    <nav class="nav">
+      <form>
+        <section class="nav__form__section--titleInput">
+          <label class="nav__form__label--1">Task Title</label>
+          <input class="nav__form__section__input--title" type="text" />
+        </section>
+        <section class="nav__form__section--tasks"></section>
+        <label class="nav__form__label--2">Task Item</label>
+        <section class="nav__form__section--addTask">
+          <input class="nav__form__section__input--task" type="text" />
+          <img
+            class="nav__form__section__img--add"
+            src="images/add.svg"
+            alt="Plus/Add Icon"
+          />
+        </section>
+      </form>
+      <button class="nav__button--makeTask">Make Task List</button>
+      <button class="nav__button--clear">Clear All</button>
+      <section class="nav__section--filter">
+        <button class="nav__button--filter">Filter By Urgency</button>
+      </section>
+    </nav>
+    <main class="main">
+      <div>
+        <p>Empty Right Now</p>
+        <p>Need Styling</p>
+        <p>Need Styling</p>
+      </div>
+    </main>
+  </body>
+  <script src="todo-list.js"></script>
+  <script src="main.js"></script>
+</html>
