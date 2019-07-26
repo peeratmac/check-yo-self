@@ -111,7 +111,7 @@ body {
   margin-top: -15px;
 }
 
-.nav__button--makeTask,
+.nav__button--addToDo,
 .nav__button--clear,
 .nav__button--filter {
   cursor: pointer;
@@ -151,4 +151,30 @@ body {
 .main {
   grid-area: main;
   margin: 20px;
+}
+
+/* MEDIA QUERY */
+
+@media screen and (max-width: 620px) {
+  body {
+    display: block;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header__form {
+    padding-bottom: 25px;
+  }
+
+  .nav {
+    height: 100%;
+  }
+
+  .nav__section--filter {
+    padding-bottom: 25px;
+  }
 }
