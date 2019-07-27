@@ -18,14 +18,12 @@ var addToDoItemButton = document.querySelector('.nav__button--addToDo');
 
 var clearAllButton = document.querySelector('.nav__button--clear');
 var main = document.querySelector('.main');
-// ! var markCompleteImg = document.querySelector('.card__checkbox--img');
 
 // * Event Listeners
 navigationAside.addEventListener('click', navHandlers);
 newToDoTitleInput.addEventListener('keyup', inputHandlers);
 newTaskItemInput.addEventListener('keyup', inputHandlers);
 main.addEventListener('click', mainHandlers);
-// ! markCompleteImg.addEventListener('click', markTaskOff);
 
 // * Functions Run on Page Load
 reInstantiateAll();
@@ -50,19 +48,6 @@ function getTasksToBeAddedIndex(taskID) {
   return tasksArray.findIndex(function(task) {
     return task.id === parseInt(taskID);
   });
-}
-
-function markTaskOff(event) {
-  // define card in question
-  console.log('markTaskOff');
-  var cardIndex = getCardIndex(event);
-  var card = toDosArray[cardIndex];
-  // define task in question
-  var task = event.target.closest('.card__tasks');
-  // check on the image checkmark
-
-  // increment completion count
-  // update data to localstorage
 }
 
 // Delete tasks as they are stack up during initial composing phase
@@ -138,6 +123,9 @@ function mainHandlers() {
   if (event.target.className === 'card__checkbox--img') {
     checkboxCheck(event);
   }
+  if (event.target.className === 'card__delete--img') {
+    deleteCard(event);
+  }
 }
 
 // Main -- checkbox function inside the card
@@ -149,6 +137,7 @@ function checkboxCheck(event) {
   checkbox = !checkbox;
   toDosArray[cardIndex].updateTask(eachTaskIndex, checkbox);
   checkboxImgChange(event, cardIndex, eachTaskIndex);
+  // ! cardStyling();
 }
 
 function checkboxImgChange(event, cardIndex, eachTaskIndex) {
@@ -159,6 +148,27 @@ function checkboxImgChange(event, cardIndex, eachTaskIndex) {
   toDosArray[cardIndex].tasks[eachTaskIndex].check
     ? (checkboxImage.src = checkboxTrue)
     : (checkboxImage.src = checkboxFalse);
+}
+
+// ! Need card text styling after checking task true/false
+function cardStyling() {}
+
+// Delete card/ToDo
+function deleteCard(event) {
+  var cardIndex = getCardIndex(event);
+  var taskListContent = toDosArray[cardIndex].tasks;
+  var arrayToCompare = taskListContent.filter(
+    allTasksInCard => allTasksInCard.check === true
+  );
+  console.log(arrayToCompare);
+  if (arrayToCompare.length === taskListContent.length) {
+    console.log('hitting delete card button');
+    // delete / remove the card
+  } else {
+    console.log('hitting delete but not all tasks checked');
+    // don't delete the card
+    return;
+  }
 }
 
 // New ToDo
