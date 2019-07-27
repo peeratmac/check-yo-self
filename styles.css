@@ -215,6 +215,11 @@ body {
   width: 20px;
 }
 
+.true {
+  color: #3c6577;
+  font-style: italic;
+}
+
 /* MEDIA QUERY */
 
 @media screen and (max-width: 620px) {
