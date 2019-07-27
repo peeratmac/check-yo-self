@@ -29,6 +29,35 @@ reInstantiateAll();
 disableButtons();
 
 // * Functions
+function getCardIndex(event) {
+  var index = event.target.closest('.card').getAttribute('data-id');
+  return toDosArray.findIndex(function(card) {
+    return card.id === parseInt(index);
+  });
+}
+
+function getTaskIndex(event, cardIndex) {
+  var index = event.target.closest('.card__tasks').getAttribute('data-id');
+  return toDosArray[cardIndex].tasks.findIndex(function(task) {
+    return task.id === parseInt(index);
+  });
+}
+
+function getTasksToBeAddedIndex(taskID) {
+  return tasksArray.findIndex(function(task) {
+    return task.id === parseInt(taskID);
+  });
+}
+
+// Delete tasks as they are stack up during initial composing phase
+function deleteTasksToBeAdded(event) {
+  taskIndex = getTasksToBeAddedIndex(taskID);
+  var task = event.target.closest('.nav__form__section--tasks');
+  var taskID = task.getAttribute('data-id');
+  task.remove();
+  tasksArray.splice(taskIndex, 1);
+}
+
 function clearInput(event) {
   if (event.target === addTaskItemButton) {
     newTaskItemInput.value = '';
@@ -69,6 +98,9 @@ function navHandlers(event) {
   }
   if (event.target === addTaskItemButton) {
     newTask(event);
+  }
+  if (event.target.className === 'temp__delete__img') {
+    deleteTasksToBeAdded(event);
   }
 }
 
@@ -138,12 +170,12 @@ function appendTask(object) {
 // Append ToDo card
 function appendToDo(object) {
   console.log('hello todo');
-  var newToDo = `<article class="card">
+  var newToDo = `<article class="card" data-id=${object.id}>
   <header class="card__header">
-    <h3 class="card__header__h3">Task Title Here</h3>
+    <h3 class="card__header__h3">${object.title}</h3>
   </header>
   <section class="card__section">
-    task list here -- need a method to append
+    ${addTasksToCard(object)}
   </section>
   <footer class="card__footer">
     <div class="card__urgent">
@@ -161,4 +193,19 @@ function appendToDo(object) {
   </footer>
 </article>`;
   main.insertAdjacentHTML('afterbegin', newToDo);
+}
+
+// Add individual tasks from aside to actual card of ToDos
+function addTasksToCard(toDo) {
+  var navListOfTasks = '';
+  for (var i = 0; i < toDo.tasks.length; i++) {
+    navListOfTasks =
+      navListOfTasks +
+      `<div class="card__tasks" data-id=${
+        toDo.tasks[i].id
+      }> <img class="card__checkbox--img" src="images/checkbox.svg" <p class="card__p">${
+        toDo.tasks[i].taskContent
+      }</p>`;
+  }
+  return navListOfTasks;
 }
