@@ -4,6 +4,7 @@ class ToDoList {
     this.title = toDoObject.title;
     this.tasks = toDoObject.tasks || [];
     this.urgent = toDoObject.urgent;
+    this.completionCount = 0;
   }
 
   saveToStorage(toDosArray) {
@@ -36,7 +37,7 @@ class Task {
   constructor(taskObject) {
     this.id = taskObject.id;
     this.taskContent = taskObject.taskContent;
-    this.checked = taskObject.checked || false;
+    this.check = taskObject.check || false;
   }
 
   saveToStorage(tasksArray) {
