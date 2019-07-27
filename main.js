@@ -12,20 +12,48 @@ var newTaskItemInput = document.querySelector(
   '.nav__form__section__input--task'
 );
 var addTaskItemButton = document.querySelector('.nav__form__section__img--add');
+
+// ? Calling Make Task List button addToDoItem button
 var addToDoItemButton = document.querySelector('.nav__button--addToDo');
+
+var clearAllButton = document.querySelector('.nav__button--clear');
 var main = document.querySelector('.main');
 
 // * Event Listeners
 navigationAside.addEventListener('click', navHandlers);
+newToDoTitleInput.addEventListener('keyup', toDoTitleInputHandlers);
+newTaskItemInput.addEventListener('keyup', taskItemInputHandlers);
 
 // * Functions Run on Page Load
 reInstantiateAll();
+disableButtons();
 
 // * Functions
-function clearInput(input) {
-  input.value = '';
+function clearInput(event) {
+  if (event.target === addTaskItemButton) {
+    newTaskItemInput.value = '';
+    enableButtons();
+  } else {
+    newTaskItemInput.value = '';
+    newToDoTitleInput.value = '';
+    tasksToBeAdded.innerHTML = '';
+    tasksArray = [];
+    disableButtons();
+  }
 }
 
+// TODO: Not working right now
+function enableButtons() {
+  addToDoItemButton.disabled = false;
+  clearAllButton.disabled = false;
+}
+
+function disableButtons() {
+  addToDoItemButton.disabled = true;
+  clearAllButton.disabled = true;
+}
+
+// Reinstantiation of todos and tasks
 function reInstantiateAll() {
   var toDosArray1 = JSON.parse(localStorage.getItem('toDoObjects')) || [];
   toDosArray1.forEach(function(oldToDoObject) {
@@ -33,6 +61,7 @@ function reInstantiateAll() {
   });
 }
 
+// Handle for everything on the navigation aside part
 function navHandlers(event) {
   event.preventDefault();
   if (event.target === addToDoItemButton) {
@@ -43,6 +72,16 @@ function navHandlers(event) {
   }
 }
 
+// Handle for Inputs
+function toDoTitleInputHandlers() {
+  // disableEnableButtons();
+}
+
+function taskItemInputHandlers() {
+  // disableEnableButtons();
+}
+
+// New ToDo
 function newToDo(event) {
   event.preventDefault();
   var toDo = new ToDoList({
@@ -54,9 +93,10 @@ function newToDo(event) {
   toDosArray.push(toDo);
   appendToDo(toDo);
   toDo.saveToStorage(toDosArray);
-  clearInput(newToDoTitleInput);
+  clearInput(event);
 }
 
+// Re-do todos to make them object again
 function reToDo(oldToDoObject) {
   var toDo = new ToDoList(oldToDoObject);
   reTasks(toDo);
@@ -64,6 +104,7 @@ function reToDo(oldToDoObject) {
   toDosArray.push(toDo);
 }
 
+// New Task (individual tasks inside one ToDo card)
 function newTask() {
   var taskItemInput = newTaskItemInput.value;
   var task = new Task({
@@ -74,15 +115,17 @@ function newTask() {
   tasksArray.push(task);
   appendTask(task);
   task.saveToStorage(tasksArray);
-  clearInput(newTaskItemInput);
+  clearInput(event);
 }
 
+// Re-do tasks to make them object again
 function reTasks(toDo) {
   for (var i = 0; i < toDo.tasks.length; i++) {
     toDo.tasks[i] = new Task(toDo.tasks[i]);
   }
 }
 
+// Append tasks on the nav aside
 function appendTask(object) {
   console.log('hello task');
   var newTask = `<div class="temp__div" data-id="${object.id}">
@@ -92,6 +135,7 @@ function appendTask(object) {
   tasksToBeAdded.insertAdjacentHTML('afterbegin', newTask);
 }
 
+// Append ToDo card
 function appendToDo(object) {
   console.log('hello todo');
   var newToDo = `<article class="card">
