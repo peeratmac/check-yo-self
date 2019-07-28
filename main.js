@@ -167,8 +167,39 @@ function markCardUrgent(event) {
   currentCard.urgent
     ? (urgentImage.src = urgentTrue)
     : (urgentImage.src = urgentFalse);
+
   currentCard.updateToDo(currentCard.urgent);
+
+  handleCardStyle(event);
+
+  // if (currentCard.urgent) {
+  //   event.target.closest('.card').classList.add('card', 'urgent');
+  // } else {
+  //   event.target.closest('.card').classList.remove('urgent');
+  // }
 }
+
+function handleCardStyle(event) {
+  var cardIndex = getCardIndex(event);
+  if (toDosArray[cardIndex].urgent) {
+    event.target.closest('.card').classList.add('card', 'urgent');
+  } else {
+    event.target.closest('.card').classList.remove('urgent');
+  }
+}
+
+// ! doesn't work right now, Update Class after knowing whether card is urgent or not
+// function checkUrgentClass(event) {
+//   var cardIndex = getCardIndex(event);
+//   var urgentImage = event.target.closest('.card__urgent--img');
+//   var urgentTrue = 'images/urgent-active.svg';
+//   var urgentFalse = 'images/urgent.svg';
+//   var currentCard = toDosArray[cardIndex];
+//   if (urgentImage.src == urgentTrue) {
+//     console.log(event.target.closest('.card'));
+//     event.target.closest('.card').classList.add('card urgent');
+//   }
+// }
 
 // Delete card/ToDo
 function deleteCard(event) {
@@ -185,11 +216,11 @@ function deleteCard(event) {
     event.target.closest('.card').remove();
     toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
-    console.log('hitting delete but not all tasks checked');
     // don't delete the card
     // maybe have a message to complete all before removing?
     // ! this doesn't work
-    event.target.closest('.card__warning').classList.remove('hidden');
+    console.log(event.target.closest('.card__warning'));
+    console.log('hitting delete but not all tasks checked');
   }
 }
 
@@ -257,7 +288,7 @@ function appendToDo(object) {
   var urgentImageSource = object.urgent
     ? 'images/urgent-active.svg'
     : 'images/urgent.svg';
-  var newToDo = `<article class=${urgentClass} data-id=${object.id}>
+  var newToDo = `<article class="${urgentClass}" data-id=${object.id}>
   <header class="card__header">
     <h3 class="card__header__h3">${object.title}</h3>
   </header>
@@ -273,7 +304,7 @@ function appendToDo(object) {
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
-    <div class="card__warning hidden><p>One can only delete when all tasks are completed!</p></div>
+    <div class="card__warning hidden"><p>One can only delete when all tasks are completed!</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src="images/delete.svg" alt="" />
       <p class="card__footer__delete--text">DELETE</p>
