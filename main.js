@@ -18,13 +18,16 @@ var addToDoItemButton = document.querySelector('.nav__button--addToDo');
 var clearAllButton = document.querySelector('.nav__button--clear');
 var filterByUrgencyButton = document.querySelector('.nav__button--filter');
 var emptyDataSet = document.querySelector('.empty-dataset');
+var emptyUrgentDataSet = document.querySelector('.empty-urgent-dataset');
 var main = document.querySelector('.main');
+var searchBox = document.querySelector('.header__form__input--search');
 
 // * Event Listeners
 navigationAside.addEventListener('click', navHandlers);
 newToDoTitleInput.addEventListener('keyup', inputHandlers);
 newTaskItemInput.addEventListener('keyup', inputHandlers);
 main.addEventListener('click', mainHandlers);
+searchBox.addEventListener('keyup', searchFilter);
 
 // * Functions Run on Page Load
 reInstantiateAll();
@@ -112,6 +115,7 @@ function navHandlers(event) {
     filterByUrgency(event);
   }
   promptToCreateToDo();
+  promptToMarkToDoUrgent();
 }
 
 // Handle for Inputs
@@ -141,11 +145,6 @@ function mainHandlers() {
     markCardUrgent(event);
   }
   promptToCreateToDo();
-}
-
-// Filter by Urgency
-function filterByUrgency(event) {
-  console.log('filter by urgency');
 }
 
 // Prompt to create To Do
@@ -205,14 +204,7 @@ function markCardUrgent(event) {
     : (urgentImage.src = urgentFalse);
 
   currentCard.updateToDo(currentCard.urgent);
-
   handleCardStyle(event);
-
-  // if (currentCard.urgent) {
-  //   event.target.closest('.card').classList.add('card', 'urgent');
-  // } else {
-  //   event.target.closest('.card').classList.remove('urgent');
-  // }
 }
 
 function handleCardStyle(event) {
@@ -223,19 +215,6 @@ function handleCardStyle(event) {
     event.target.closest('.card').classList.remove('urgent');
   }
 }
-
-// ! doesn't work right now, Update Class after knowing whether card is urgent or not
-// function checkUrgentClass(event) {
-//   var cardIndex = getCardIndex(event);
-//   var urgentImage = event.target.closest('.card__urgent--img');
-//   var urgentTrue = 'images/urgent-active.svg';
-//   var urgentFalse = 'images/urgent.svg';
-//   var currentCard = toDosArray[cardIndex];
-//   if (urgentImage.src == urgentTrue) {
-//     console.log(event.target.closest('.card'));
-//     event.target.closest('.card').classList.add('card urgent');
-//   }
-// }
 
 // Delete card/ToDo
 function deleteCard(event) {
@@ -367,4 +346,81 @@ function addTasksToCard(toDo) {
       }</p></div>`;
   }
   return navListOfTasks;
+}
+
+// Search through ToDos and Tasks (also check whether card is urgent)
+function searchFilter() {
+  var search = searchBox.value.toLowerCase();
+  if (
+    filterByUrgencyButton.classList.contains('nav__button--filter--filterON')
+  ) {
+    var results = toDosArray.filter(
+      titles => titles.title.toLowerCase().includes(search) && titles.urgent
+    );
+    main.innerHTML = '';
+    results.map(titles => appendToDo(titles));
+  } else {
+    var results = toDosArray.filter(titles =>
+      titles.title.toLowerCase().includes(search)
+    );
+    main.innerHTML = '';
+    results.map(titles => appendToDo(titles));
+  }
+}
+
+// Filter by Urgency
+function filterByUrgency(event) {
+  var urgencyFilterClass = 'nav__button--filter--filterON';
+  event.target.classList.toggle(urgencyFilterClass);
+  if (event.target.classList.contains(urgencyFilterClass)) {
+    var urgencyResults = toDosArray.filter(
+      urgentOrNotCards => urgentOrNotCards.urgent == true
+    );
+    main.innerHTML = '';
+    urgencyResults.map(urgencyResults => appendToDo(urgencyResults));
+  } else {
+    main.innerHTML = '';
+    toDosArray.map(allToDos => appendToDo(allToDos));
+  }
+  searchFilter();
+  // promptToMarkToDoUrgent();
+}
+
+// promptToMarkToDoUrgent();
+
+// Prompt to mark cards as urgent
+// function promptToMarkToDoUrgent() {
+//   if (
+//     filterByUrgencyButton.classList.contains('nav__button--filter--filterON')
+//   ) {
+//     var results = toDosArray.filter(allCards => allCards.urgent);
+//     console.log(results);
+//     if (results.length > 0) {
+//       emptyUrgentDataSet.classList.add('hidden');
+//     } else {
+//       emptyUrgentDataSet.classList.remove('hidden');
+//     }
+//   } else {
+//     emptyUrgentDataSet.classList.remove('hidden');
+//   }
+// }
+
+// Urgent Array finder listing out all the cards that is marked as urgent -- use this for prompt to find the length
+function urgentArrayFinder() {
+  var urgentArray = toDosArray.filter(
+    toDosObject => toDosObject.urgent == true
+  );
+  return urgentArray;
+}
+
+function promptToMarkToDoUrgent() {
+  var array = urgentArrayFinder();
+  if (
+    filterByUrgencyButton.classList.contains('nav__button--filter--filterON') &&
+    array.length == 0
+  ) {
+    var urgentPrompt =
+      '<div class="empty-urgent-dataset"><p>🙊 Pro Tip: each To Do List can be marked as urgent simply by tapping the URGENT ⚡ icon!</p></div>';
+    main.insertAdjacentHTML('afterbegin', urgentPrompt);
+  }
 }
