@@ -15,8 +15,8 @@ var addTaskItemButton = document.querySelector('.nav__form__section__img--add');
 
 // * Calling Make Task List button addToDoItem button because it is making more sense right now
 var addToDoItemButton = document.querySelector('.nav__button--addToDo');
-
 var clearAllButton = document.querySelector('.nav__button--clear');
+var filterByUrgencyButton = document.querySelector('.nav__button--filter');
 var main = document.querySelector('.main');
 
 // * Event Listeners
@@ -106,14 +106,21 @@ function navHandlers(event) {
   if (event.target === clearAllButton) {
     clearInput(event);
   }
+  if (event.target === filterByUrgencyButton) {
+    filterByUrgency(event);
+  }
 }
 
 // Handle for Inputs
 function inputHandlers() {
-  if (newToDoTitleInput.value !== '' || newTaskItemInput.value !== '') {
-    enableButtons();
-  } else {
+  if (
+    newToDoTitleInput.value == '' ||
+    newTaskItemInput.value == '' ||
+    tasksArray.length == 0
+  ) {
     disableButtons();
+  } else {
+    enableButtons();
   }
 }
 
@@ -131,6 +138,11 @@ function mainHandlers() {
   }
 }
 
+// Filter by Urgency
+function filterByUrgency() {
+  console.log('filter by urgency');
+}
+
 // Main -- checkbox function inside the card
 function checkboxCheck(event) {
   var cardIndex = getCardIndex(event);
@@ -140,7 +152,7 @@ function checkboxCheck(event) {
   checkbox = !checkbox;
   toDosArray[cardIndex].updateTask(eachTaskIndex, checkbox);
   checkboxImgChange(event, cardIndex, eachTaskIndex);
-  // ! cardStyling();
+  checkboxTextStyleChange(event, cardIndex, eachTaskIndex);
 }
 
 function checkboxImgChange(event, cardIndex, eachTaskIndex) {
@@ -153,8 +165,18 @@ function checkboxImgChange(event, cardIndex, eachTaskIndex) {
     : (checkboxImage.src = checkboxFalse);
 }
 
-// Todo: Need card text styling after checking task true/false
-function cardStyling() {}
+function checkboxTextStyleChange(event, cardIndex, eachTaskIndex) {
+  var cardIndex = getCardIndex(event);
+  var eachTaskIndex = getTaskIndex(event, cardIndex);
+  var eachTask = event.target.closest('.card__tasks');
+  if (toDosArray[cardIndex].tasks[eachTaskIndex].check) {
+    eachTask.children[1].classList.add('true');
+    eachTask.children[1].classList.remove('false');
+  } else {
+    eachTask.children[1].classList.add('false');
+    eachTask.children[1].classList.remove('true');
+  }
+}
 
 // Urgent or Not
 function markCardUrgent(event) {
@@ -217,10 +239,10 @@ function deleteCard(event) {
     toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
     // don't delete the card
-    // maybe have a message to complete all before removing?
-    // ! this doesn't work
-    console.log(event.target.closest('.card__warning'));
     console.log('hitting delete but not all tasks checked');
+    var cardFooter = event.target.closest('.card__footer');
+    console.log(cardFooter.children[1].classList);
+    cardFooter.children[1].classList.remove('hidden');
   }
 }
 
@@ -304,7 +326,7 @@ function appendToDo(object) {
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
-    <div class="card__warning hidden"><p>One can only delete when all tasks are completed!</p></div>
+    <div class="card__warning hidden"><p>Please complete all tasks first.</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src="images/delete.svg" alt="" />
       <p class="card__footer__delete--text">DELETE</p>
