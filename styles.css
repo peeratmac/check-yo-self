@@ -141,6 +141,10 @@ body {
   background-color: #ef4a23;
 }
 
+.nav__button--filter--filterON {
+  background-color: #ef4a23;
+}
+
 .nav__button--clear {
   margin-bottom: 30px;
 }
@@ -178,7 +182,8 @@ body {
 
 /* MAIN CARD AREA */
 
-.empty-dataset {
+.empty-dataset,
+.empty-urgent-dataset {
   color: #ef4a23;
   font-size: 1.8rem;
 }
