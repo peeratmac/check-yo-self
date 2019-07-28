@@ -126,6 +126,9 @@ function mainHandlers() {
   if (event.target.className === 'card__delete--img') {
     deleteCard(event);
   }
+  if (event.target.className === 'card__urgent--img') {
+    markCardUrgent(event);
+  }
 }
 
 // Main -- checkbox function inside the card
@@ -150,8 +153,22 @@ function checkboxImgChange(event, cardIndex, eachTaskIndex) {
     : (checkboxImage.src = checkboxFalse);
 }
 
-// ! Need card text styling after checking task true/false
+// Todo: Need card text styling after checking task true/false
 function cardStyling() {}
+
+// Urgent or Not
+function markCardUrgent(event) {
+  var cardIndex = getCardIndex(event);
+  var urgentImage = event.target.closest('.card__urgent--img');
+  var urgentTrue = 'images/urgent-active.svg';
+  var urgentFalse = 'images/urgent.svg';
+  var currentCard = toDosArray[cardIndex];
+  currentCard.urgent = !currentCard.urgent;
+  currentCard.urgent
+    ? (urgentImage.src = urgentTrue)
+    : (urgentImage.src = urgentFalse);
+  currentCard.updateToDo(currentCard.urgent);
+}
 
 // Delete card/ToDo
 function deleteCard(event) {
@@ -163,11 +180,16 @@ function deleteCard(event) {
   console.log(arrayToCompare);
   if (arrayToCompare.length === taskListContent.length) {
     console.log('hitting delete card button');
-    // delete / remove the card
+    // remove that card from DOM then delete from storage also
+    // Todo: refactor here into another function.
+    event.target.closest('.card').remove();
+    toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
     console.log('hitting delete but not all tasks checked');
     // don't delete the card
-    return;
+    // maybe have a message to complete all before removing?
+    // ! this doesn't work
+    event.target.closest('.card__warning').classList.remove('hidden');
   }
 }
 
@@ -231,8 +253,11 @@ function appendTask(object) {
 
 // Append ToDo card
 function appendToDo(object) {
-  console.log('hello todo');
-  var newToDo = `<article class="card" data-id=${object.id}>
+  var urgentClass = object.urgent ? 'card urgent' : 'card';
+  var urgentImageSource = object.urgent
+    ? 'images/urgent-active.svg'
+    : 'images/urgent.svg';
+  var newToDo = `<article class=${urgentClass} data-id=${object.id}>
   <header class="card__header">
     <h3 class="card__header__h3">${object.title}</h3>
   </header>
@@ -243,11 +268,12 @@ function appendToDo(object) {
     <div class="card__urgent">
       <img
         class="card__urgent--img"
-        src="images/urgent.svg"
+        src=${urgentImageSource}
         alt="Urgent Indicator Icon"
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
+    <div class="card__warning hidden><p>One can only delete when all tasks are completed!</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src="images/delete.svg" alt="" />
       <p class="card__footer__delete--text">DELETE</p>

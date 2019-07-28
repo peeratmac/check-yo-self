@@ -220,6 +220,23 @@ body {
   font-style: italic;
 }
 
+.urgent {
+  background-color: #ffd89d;
+  border: 2px solid #ffc30c;
+}
+
+.urgent header {
+  border-bottom: 2px solid #ffc30c;
+}
+
+.urgent footer {
+  border-top: 2px solid #ffc30c;
+}
+
+.hidden {
+  display: none;
+}
+
 /* MEDIA QUERY */
 
 @media screen and (max-width: 620px) {
