@@ -17,6 +17,7 @@ var addTaskItemButton = document.querySelector('.nav__form__section__img--add');
 var addToDoItemButton = document.querySelector('.nav__button--addToDo');
 var clearAllButton = document.querySelector('.nav__button--clear');
 var filterByUrgencyButton = document.querySelector('.nav__button--filter');
+var emptyDataSet = document.querySelector('.empty-dataset');
 var main = document.querySelector('.main');
 
 // * Event Listeners
@@ -28,6 +29,7 @@ main.addEventListener('click', mainHandlers);
 // * Functions Run on Page Load
 reInstantiateAll();
 disableButtons();
+promptToCreateToDo();
 
 // * Functions
 function getCardIndex(event) {
@@ -109,6 +111,7 @@ function navHandlers(event) {
   if (event.target === filterByUrgencyButton) {
     filterByUrgency(event);
   }
+  promptToCreateToDo();
 }
 
 // Handle for Inputs
@@ -122,6 +125,7 @@ function inputHandlers() {
   } else {
     enableButtons();
   }
+  promptToCreateToDo();
 }
 
 // Handle for Main card area
@@ -136,11 +140,21 @@ function mainHandlers() {
   if (event.target.className === 'card__urgent--img') {
     markCardUrgent(event);
   }
+  promptToCreateToDo();
 }
 
 // Filter by Urgency
-function filterByUrgency() {
+function filterByUrgency(event) {
   console.log('filter by urgency');
+}
+
+// Prompt to create To Do
+function promptToCreateToDo() {
+  if (toDosArray.length > 0) {
+    emptyDataSet.classList.add('hidden');
+  } else {
+    emptyDataSet.classList.remove('hidden');
+  }
 }
 
 // Main -- checkbox function inside the card

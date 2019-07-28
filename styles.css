@@ -178,6 +178,11 @@ body {
 
 /* MAIN CARD AREA */
 
+.empty-dataset {
+  color: #ef4a23;
+  font-size: 1.8rem;
+}
+
 .main {
   grid-area: main;
   margin: 20px;
