@@ -160,9 +160,7 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 40px;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 95%;
+  width: 100%;
 }
 
 .filter-btn-urgency-on {
