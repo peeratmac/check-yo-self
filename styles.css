@@ -129,6 +129,18 @@ body {
   font-weight: 800;
 }
 
+.nav__button--addToDo:disabled,
+.nav__button--clear:disabled {
+  background-color: #778ca3;
+  pointer-events: none;
+}
+
+.nav__button--addToDo:active,
+.nav__button--clear:active,
+.nav__button--filter:active {
+  background-color: #ef4a23;
+}
+
 .nav__button--clear {
   margin-bottom: 30px;
 }
@@ -147,6 +159,10 @@ body {
   margin-left: 10px;
   margin-right: 10px;
   width: 95%;
+}
+
+.filter-btn-urgency-on {
+  background-color: #ef4a23;
 }
 
 .temp__div {
@@ -215,9 +231,31 @@ body {
   width: 20px;
 }
 
+.card__warning {
+  color: #ef4a23;
+  font-weight: 800;
+}
+
 .true {
   color: #3c6577;
   font-style: italic;
+}
+
+.urgent {
+  background-color: #ffd89d;
+  border: 2px solid #ffc30c;
+}
+
+.urgent header {
+  border-bottom: 2px solid #ffc30c;
+}
+
+.urgent footer {
+  border-top: 2px solid #ffc30c;
+}
+
+.hidden {
+  display: none;
 }
 
 /* MEDIA QUERY */

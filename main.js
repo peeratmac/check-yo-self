@@ -15,17 +15,15 @@ var addTaskItemButton = document.querySelector('.nav__form__section__img--add');
 
 // * Calling Make Task List button addToDoItem button because it is making more sense right now
 var addToDoItemButton = document.querySelector('.nav__button--addToDo');
-
 var clearAllButton = document.querySelector('.nav__button--clear');
+var filterByUrgencyButton = document.querySelector('.nav__button--filter');
 var main = document.querySelector('.main');
-// ! var markCompleteImg = document.querySelector('.card__checkbox--img');
 
 // * Event Listeners
 navigationAside.addEventListener('click', navHandlers);
 newToDoTitleInput.addEventListener('keyup', inputHandlers);
 newTaskItemInput.addEventListener('keyup', inputHandlers);
 main.addEventListener('click', mainHandlers);
-// ! markCompleteImg.addEventListener('click', markTaskOff);
 
 // * Functions Run on Page Load
 reInstantiateAll();
@@ -50,19 +48,6 @@ function getTasksToBeAddedIndex(taskID) {
   return tasksArray.findIndex(function(task) {
     return task.id === parseInt(taskID);
   });
-}
-
-function markTaskOff(event) {
-  // define card in question
-  console.log('markTaskOff');
-  var cardIndex = getCardIndex(event);
-  var card = toDosArray[cardIndex];
-  // define task in question
-  var task = event.target.closest('.card__tasks');
-  // check on the image checkmark
-
-  // increment completion count
-  // update data to localstorage
 }
 
 // Delete tasks as they are stack up during initial composing phase
@@ -121,14 +106,21 @@ function navHandlers(event) {
   if (event.target === clearAllButton) {
     clearInput(event);
   }
+  if (event.target === filterByUrgencyButton) {
+    filterByUrgency(event);
+  }
 }
 
 // Handle for Inputs
 function inputHandlers() {
-  if (newToDoTitleInput.value !== '' || newTaskItemInput.value !== '') {
-    enableButtons();
-  } else {
+  if (
+    newToDoTitleInput.value == '' ||
+    newTaskItemInput.value == '' ||
+    tasksArray.length == 0
+  ) {
     disableButtons();
+  } else {
+    enableButtons();
   }
 }
 
@@ -138,6 +130,17 @@ function mainHandlers() {
   if (event.target.className === 'card__checkbox--img') {
     checkboxCheck(event);
   }
+  if (event.target.className === 'card__delete--img') {
+    deleteCard(event);
+  }
+  if (event.target.className === 'card__urgent--img') {
+    markCardUrgent(event);
+  }
+}
+
+// Filter by Urgency
+function filterByUrgency() {
+  console.log('filter by urgency');
 }
 
 // Main -- checkbox function inside the card
@@ -149,6 +152,7 @@ function checkboxCheck(event) {
   checkbox = !checkbox;
   toDosArray[cardIndex].updateTask(eachTaskIndex, checkbox);
   checkboxImgChange(event, cardIndex, eachTaskIndex);
+  checkboxTextStyleChange(event, cardIndex, eachTaskIndex);
 }
 
 function checkboxImgChange(event, cardIndex, eachTaskIndex) {
@@ -159,6 +163,87 @@ function checkboxImgChange(event, cardIndex, eachTaskIndex) {
   toDosArray[cardIndex].tasks[eachTaskIndex].check
     ? (checkboxImage.src = checkboxTrue)
     : (checkboxImage.src = checkboxFalse);
+}
+
+function checkboxTextStyleChange(event, cardIndex, eachTaskIndex) {
+  var cardIndex = getCardIndex(event);
+  var eachTaskIndex = getTaskIndex(event, cardIndex);
+  var eachTask = event.target.closest('.card__tasks');
+  if (toDosArray[cardIndex].tasks[eachTaskIndex].check) {
+    eachTask.children[1].classList.add('true');
+    eachTask.children[1].classList.remove('false');
+  } else {
+    eachTask.children[1].classList.add('false');
+    eachTask.children[1].classList.remove('true');
+  }
+}
+
+// Urgent or Not
+function markCardUrgent(event) {
+  var cardIndex = getCardIndex(event);
+  var urgentImage = event.target.closest('.card__urgent--img');
+  var urgentTrue = 'images/urgent-active.svg';
+  var urgentFalse = 'images/urgent.svg';
+  var currentCard = toDosArray[cardIndex];
+  currentCard.urgent = !currentCard.urgent;
+  currentCard.urgent
+    ? (urgentImage.src = urgentTrue)
+    : (urgentImage.src = urgentFalse);
+
+  currentCard.updateToDo(currentCard.urgent);
+
+  handleCardStyle(event);
+
+  // if (currentCard.urgent) {
+  //   event.target.closest('.card').classList.add('card', 'urgent');
+  // } else {
+  //   event.target.closest('.card').classList.remove('urgent');
+  // }
+}
+
+function handleCardStyle(event) {
+  var cardIndex = getCardIndex(event);
+  if (toDosArray[cardIndex].urgent) {
+    event.target.closest('.card').classList.add('card', 'urgent');
+  } else {
+    event.target.closest('.card').classList.remove('urgent');
+  }
+}
+
+// ! doesn't work right now, Update Class after knowing whether card is urgent or not
+// function checkUrgentClass(event) {
+//   var cardIndex = getCardIndex(event);
+//   var urgentImage = event.target.closest('.card__urgent--img');
+//   var urgentTrue = 'images/urgent-active.svg';
+//   var urgentFalse = 'images/urgent.svg';
+//   var currentCard = toDosArray[cardIndex];
+//   if (urgentImage.src == urgentTrue) {
+//     console.log(event.target.closest('.card'));
+//     event.target.closest('.card').classList.add('card urgent');
+//   }
+// }
+
+// Delete card/ToDo
+function deleteCard(event) {
+  var cardIndex = getCardIndex(event);
+  var taskListContent = toDosArray[cardIndex].tasks;
+  var arrayToCompare = taskListContent.filter(
+    allTasksInCard => allTasksInCard.check === true
+  );
+  console.log(arrayToCompare);
+  if (arrayToCompare.length === taskListContent.length) {
+    console.log('hitting delete card button');
+    // remove that card from DOM then delete from storage also
+    // Todo: refactor here into another function.
+    event.target.closest('.card').remove();
+    toDosArray[cardIndex].deleteFromStorage(cardIndex);
+  } else {
+    // don't delete the card
+    console.log('hitting delete but not all tasks checked');
+    var cardFooter = event.target.closest('.card__footer');
+    console.log(cardFooter.children[1].classList);
+    cardFooter.children[1].classList.remove('hidden');
+  }
 }
 
 // New ToDo
@@ -221,8 +306,11 @@ function appendTask(object) {
 
 // Append ToDo card
 function appendToDo(object) {
-  console.log('hello todo');
-  var newToDo = `<article class="card" data-id=${object.id}>
+  var urgentClass = object.urgent ? 'card urgent' : 'card';
+  var urgentImageSource = object.urgent
+    ? 'images/urgent-active.svg'
+    : 'images/urgent.svg';
+  var newToDo = `<article class="${urgentClass}" data-id=${object.id}>
   <header class="card__header">
     <h3 class="card__header__h3">${object.title}</h3>
   </header>
@@ -233,11 +321,12 @@ function appendToDo(object) {
     <div class="card__urgent">
       <img
         class="card__urgent--img"
-        src="images/urgent.svg"
+        src=${urgentImageSource}
         alt="Urgent Indicator Icon"
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
+    <div class="card__warning hidden"><p>Please complete all tasks first.</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src="images/delete.svg" alt="" />
       <p class="card__footer__delete--text">DELETE</p>
