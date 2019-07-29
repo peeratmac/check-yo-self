@@ -71,7 +71,7 @@ body {
   height: 40px;
   margin: 0px 10px;
   border: 2px solid #1f1f3d;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 /* current task items appear here */
@@ -102,7 +102,7 @@ body {
   margin-left: 10px;
   width: 100%;
   border: 2px solid #1f1f3d;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .nav__form__section__img--add {
@@ -178,7 +178,7 @@ body {
   display: flex;
   color: #ffffff;
   padding: 0px 10px;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .temp__delete__img {
