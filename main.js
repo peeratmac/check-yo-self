@@ -156,6 +156,9 @@ function mainHandlers() {
   if (event.target.className === 'card__urgent--img') {
     markCardUrgent(event);
   }
+  // if (event.target.className === 'card__header__h3') {
+  //   editToDoTitle('.card__header__h3', event);
+  // }
   promptToCreateToDo();
 }
 
@@ -335,7 +338,7 @@ function appendToDo(object) {
     : 'images/urgent.svg';
   var newToDo = `<article class="${urgentClass}" data-id=${object.id}>
   <header class="card__header">
-    <h3 class="card__header__h3">${object.title}</h3>
+    <h3 class="card__header__h3" contenteditable="true">${object.title}</h3>
   </header>
   <section class="card__section">
     ${addTasksToCard(object)}
@@ -365,7 +368,7 @@ function addTasksToCard(toDo) {
   for (var i = 0; i < toDo.tasks.length; i++) {
     navListOfTasks =
       navListOfTasks +
-      `<div class="card__tasks" data-id=${
+      `<div class="card__tasks" contenteditable="true" data-id=${
         toDo.tasks[i].id
       }> <img class="card__checkbox--img" src=${
         toDo.tasks[i].check
@@ -433,5 +436,17 @@ function promptToMarkToDoUrgent() {
     var urgentPrompt =
       '<div class="empty-urgent-dataset"><p>🙊 Pro Tip: each To Do List can be marked as urgent simply by tapping the URGENT ⚡ icon!</p></div>';
     main.insertAdjacentHTML('afterbegin', urgentPrompt);
+  }
+}
+
+// Edit Card Title
+function editToDoTitle(classX, event) {
+  var cardIndex = getCardIndex(event);
+  if (event.target.closest(classX)) {
+    toDosArray[cardIndex].title = event.target.innerText;
+    toDosArray[cardIndex].updateToDo(
+      toDosArray[cardIndex].title,
+      toDosArray[cardIndex].urgent
+    );
   }
 }
