@@ -12,8 +12,6 @@ var newTaskItemInput = document.querySelector(
   '.nav__form__section__input--task'
 );
 var addTaskItemButton = document.querySelector('.nav__form__section__img--add');
-
-// * Calling Make Task List button addToDoItem button because it is making more sense right now
 var addToDoItemButton = document.querySelector('.nav__button--addToDo');
 var clearAllButton = document.querySelector('.nav__button--clear');
 var filterByUrgencyButton = document.querySelector('.nav__button--filter');
@@ -35,6 +33,8 @@ disableButtons();
 promptToCreateToDo();
 
 // * Functions
+
+// Foundations to get ID and Index
 function getCardIndex(event) {
   var index = event.target.closest('.card').getAttribute('data-id');
   return toDosArray.findIndex(function(card) {
@@ -62,7 +62,6 @@ function deleteTasksToBeAdded(event) {
   getTaskIndex = getTasksToBeAddedIndex(taskID);
   task.remove();
   tasksArray.splice(getTaskIndex, 1);
-  console.log(taskID);
 }
 
 function clearInput(event) {
@@ -77,6 +76,8 @@ function clearInput(event) {
     disableButtons();
   }
 }
+
+// Enable and Disable the Make Todo and Clear All buttons
 
 function enableButtons() {
   addToDoItemButton.disabled = false;
@@ -120,7 +121,7 @@ function navHandlers(event) {
   addTaskItemButtonStyle();
 }
 
-// Handle for Inputs (Nav Aside bar not including search bar)
+// Handle for Inputs (Nav Aside bar not including search bar input)
 function inputHandlers() {
   if (newToDoTitleInput.value == '' || tasksArray.length == 0) {
     disableButtons();
@@ -177,6 +178,7 @@ function checkboxCheck(event) {
   toDosArray[cardIndex].updateTask(eachTaskIndex, checkbox);
   checkboxImgChange(event, cardIndex, eachTaskIndex);
   checkboxTextStyleChange(event, cardIndex, eachTaskIndex);
+  deleteIconStyleChange(event, cardIndex);
 }
 
 function checkboxImgChange(event, cardIndex, eachTaskIndex) {
@@ -234,19 +236,33 @@ function deleteCard(event) {
   var arrayToCompare = taskListContent.filter(
     allTasksInCard => allTasksInCard.check === true
   );
-  console.log(arrayToCompare);
   if (arrayToCompare.length === taskListContent.length) {
-    console.log('hitting delete card button');
     // remove that card from DOM then delete from storage also
-    // Todo: refactor here into another function ???
     event.target.closest('.card').remove();
     toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
     // don't delete the card
-    console.log('hitting delete but not all tasks checked');
     var cardFooter = event.target.closest('.card__footer');
-    console.log(cardFooter.children[1].classList);
     cardFooter.children[1].classList.remove('hidden');
+  }
+}
+
+// Delete Icon Style Change (if all the tasks are checked off)
+function deleteIconStyleChange(event, cardIndex) {
+  var cardIndex = getCardIndex(event);
+  var tasksInCard = toDosArray[cardIndex].tasks;
+  var deleteIconParent = event.target.closest('.card');
+  var deleteIcon = deleteIconParent.children[2].children[2].children[0];
+  var deleteIconText = deleteIconParent.children[2].children[2].children[1];
+  var tasksCompleted = tasksInCard.filter(
+    allTasksInCard => allTasksInCard.check === true
+  );
+  if (tasksCompleted.length === tasksInCard.length) {
+    deleteIcon.src = 'images/delete-active.svg';
+    deleteIconText.style.color = '#ef4a23';
+  } else {
+    deleteIcon.src = 'images/delete.svg';
+    deleteIconText.style.color = '';
   }
 }
 
@@ -303,7 +319,7 @@ function reTasks(toDo) {
 function appendTask(object) {
   if (newToDoTitleInput.value !== '') {
     var newTask = `<div class="temp__div" data-id="${object.id}">
-  <img class="temp__delete__img" src="images/delete.svg" alt="" />
+  <img class="temp__delete__img" src="images/delete-task.svg" alt="" />
   <p class="temp__p">${object.taskContent}</p>
 </div>`;
     tasksToBeAdded.insertAdjacentHTML('beforeend', newTask);
@@ -333,7 +349,7 @@ function appendToDo(object) {
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
-    <div class="card__warning hidden"><p>Please complete all tasks first 🥺</p></div>
+    <div class="card__warning hidden"><p>Please complete all tasks🥺</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src="images/delete.svg" alt="" />
       <p class="card__footer__delete--text">DELETE</p>
