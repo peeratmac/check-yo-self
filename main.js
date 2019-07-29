@@ -319,7 +319,7 @@ function appendToDo(object) {
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
-    <div class="card__warning hidden"><p>Please complete all tasks first.</p></div>
+    <div class="card__warning hidden"><p>Please complete all tasks first 🥺</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src="images/delete.svg" alt="" />
       <p class="card__footer__delete--text">DELETE</p>
