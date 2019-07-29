@@ -97,6 +97,7 @@ function reInstantiateAll() {
 }
 
 // Handle for everything on the navigation aside part
+// ! is handler function ok to be longer than 10 lines?  Not really sure according to the grading rubric.
 function navHandlers(event) {
   event.preventDefault();
   if (event.target === addToDoItemButton) {
@@ -116,20 +117,30 @@ function navHandlers(event) {
   }
   promptToCreateToDo();
   promptToMarkToDoUrgent();
+  addTaskItemButtonStyle();
 }
 
-// Handle for Inputs
+// Handle for Inputs (Nav Aside bar not including search bar)
 function inputHandlers() {
-  if (
-    newToDoTitleInput.value == '' ||
-    newTaskItemInput.value == '' ||
-    tasksArray.length == 0
-  ) {
+  if (newToDoTitleInput.value == '' || tasksArray.length == 0) {
     disableButtons();
   } else {
     enableButtons();
   }
+  if (newToDoTitleInput.value != '' || newTaskItemInput != '') {
+    clearAllButton.disabled = false;
+  }
+  addTaskItemButtonStyle();
   promptToCreateToDo();
+}
+
+// Change add icon to give users visual cue
+function addTaskItemButtonStyle() {
+  if (newTaskItemInput.value != '' && newToDoTitleInput.value != '') {
+    addTaskItemButton.style.backgroundColor = '#1f1f3d';
+  } else if (newTaskItemInput.value == '' || newToDoTitleInput.value == '') {
+    addTaskItemButton.style.backgroundColor = '#778ca3';
+  }
 }
 
 // Handle for Main card area
@@ -227,7 +238,7 @@ function deleteCard(event) {
   if (arrayToCompare.length === taskListContent.length) {
     console.log('hitting delete card button');
     // remove that card from DOM then delete from storage also
-    // Todo: refactor here into another function.
+    // Todo: refactor here into another function ???
     event.target.closest('.card').remove();
     toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
@@ -278,6 +289,7 @@ function newTask() {
     task.saveToStorage(tasksArray);
     clearInput(event);
   }
+  addTaskItemButtonStyle();
 }
 
 // Re-do tasks to make them object again
@@ -289,12 +301,14 @@ function reTasks(toDo) {
 
 // Append tasks on the nav aside
 function appendTask(object) {
-  console.log('hello task');
-  var newTask = `<div class="temp__div" data-id="${object.id}">
+  if (newToDoTitleInput.value !== '') {
+    var newTask = `<div class="temp__div" data-id="${object.id}">
   <img class="temp__delete__img" src="images/delete.svg" alt="" />
   <p class="temp__p">${object.taskContent}</p>
 </div>`;
-  tasksToBeAdded.insertAdjacentHTML('beforeend', newTask);
+    tasksToBeAdded.insertAdjacentHTML('beforeend', newTask);
+  }
+  addTaskItemButtonStyle();
 }
 
 // Append ToDo card
@@ -385,25 +399,6 @@ function filterByUrgency(event) {
   searchFilter();
   // promptToMarkToDoUrgent();
 }
-
-// promptToMarkToDoUrgent();
-
-// Prompt to mark cards as urgent
-// function promptToMarkToDoUrgent() {
-//   if (
-//     filterByUrgencyButton.classList.contains('nav__button--filter--filterON')
-//   ) {
-//     var results = toDosArray.filter(allCards => allCards.urgent);
-//     console.log(results);
-//     if (results.length > 0) {
-//       emptyUrgentDataSet.classList.add('hidden');
-//     } else {
-//       emptyUrgentDataSet.classList.remove('hidden');
-//     }
-//   } else {
-//     emptyUrgentDataSet.classList.remove('hidden');
-//   }
-// }
 
 // Urgent Array finder listing out all the cards that is marked as urgent -- use this for prompt to find the length
 function urgentArrayFinder() {

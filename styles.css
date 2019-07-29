@@ -105,7 +105,10 @@ body {
 
 .nav__form__section__img--add {
   display: flex;
-  background-color: #1f1f3d;
+  background-color: #778ca3;
+  border-top: 2px solid #1f1f3d;
+  border-right: 2px solid #1f1f3d;
+  border-bottom: 2px solid #1f1f3d;
   cursor: pointer;
   height: 40px;
   width: 40px;
@@ -121,7 +124,7 @@ body {
   flex-direction: row;
   justify-content: center;
   background-color: #1f1f3d;
-  border: 1px solid #1f1f3d;
+  border: 2px solid #1f1f3d;
   color: #ffffff;
   margin-top: 20px;
   margin-left: 10px;
@@ -202,7 +205,9 @@ body {
   background-color: #fafdff;
   width: 100%;
   border: 2px solid #c7d3d8;
-  margin: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .card__header {
