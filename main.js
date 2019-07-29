@@ -319,7 +319,7 @@ function reTasks(toDo) {
 function appendTask(object) {
   if (newToDoTitleInput.value !== '') {
     var newTask = `<div class="temp__div" data-id="${object.id}">
-  <img class="temp__delete__img" src="images/delete.svg" alt="" />
+  <img class="temp__delete__img" src="images/delete-task.svg" alt="" />
   <p class="temp__p">${object.taskContent}</p>
 </div>`;
     tasksToBeAdded.insertAdjacentHTML('beforeend', newTask);
