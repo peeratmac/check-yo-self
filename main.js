@@ -78,7 +78,6 @@ function clearInput(event) {
 }
 
 // Enable and Disable the Make Todo and Clear All buttons
-
 function enableButtons() {
   addToDoItemButton.disabled = false;
   clearAllButton.disabled = false;
@@ -98,7 +97,6 @@ function reInstantiateAll() {
 }
 
 // Handle for everything on the navigation aside part
-// ! is handler function ok to be longer than 10 lines?  Not really sure according to the grading rubric.
 function navHandlers(event) {
   event.preventDefault();
   if (event.target === addToDoItemButton) {
@@ -424,6 +422,7 @@ function urgentArrayFinder() {
   return urgentArray;
 }
 
+// A prompt to mark cards as urgent if no cards are currently marked as urgent when filter by urgency button is clicked
 function promptToMarkToDoUrgent() {
   var array = urgentArrayFinder();
   if (
