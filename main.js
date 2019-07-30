@@ -27,14 +27,14 @@ newTaskItemInput.addEventListener('keyup', inputHandlers);
 main.addEventListener('click', mainHandlers);
 searchBox.addEventListener('keyup', searchFilter);
 
-// * Functions Run on Page Load
+// * On Page Load
 reInstantiateAll();
 disableButtons();
 promptToCreateToDo();
 
 // * Functions
 
-// Foundations to get ID and Index
+// Foundations to get ID and Index (from cards, tasks inside the card, and tasks on the temporary div in the nav aside)
 function getCardIndex(event) {
   var index = event.target.closest('.card').getAttribute('data-id');
   return toDosArray.findIndex(function(card) {
@@ -55,7 +55,7 @@ function getTasksToBeAddedIndex(taskID) {
   });
 }
 
-// Delete tasks as they are stack up during initial composing phase
+// Delete tasks (nav aside) as they are stack up during initial composing phase
 function deleteTasksToBeAdded(event) {
   var task = event.target.closest('.temp__div');
   var taskID = task.getAttribute('data-id');
@@ -119,7 +119,7 @@ function navHandlers(event) {
   addTaskItemButtonStyle();
 }
 
-// Handle for Inputs (Nav Aside bar not including search bar input)
+// Handle for Inputs (except the searchbox)
 function inputHandlers() {
   if (newToDoTitleInput.value == '' || tasksArray.length == 0) {
     disableButtons();
@@ -219,15 +219,17 @@ function markCardUrgent(event) {
 }
 
 function handleCardStyle(event) {
-  var cardIndex = getCardIndex(event);
-  if (toDosArray[cardIndex].urgent) {
-    event.target.closest('.card').classList.add('card', 'urgent');
-  } else {
-    event.target.closest('.card').classList.remove('urgent');
-  }
+  // var cardIndex = getCardIndex(event);
+  // if (toDosArray[cardIndex].urgent) {
+  //   event.target.closest('.card').classList.add('card', 'urgent');
+  // } else {
+  //   event.target.closest('.card').classList.remove('urgent');
+  // }
+  var card = event.target.closest('.card');
+  card.classList.toggle('urgent');
 }
 
-// Delete card/ToDo
+// Delete Card/ToDo (only if eve)
 function deleteCard(event) {
   var cardIndex = getCardIndex(event);
   var taskListContent = toDosArray[cardIndex].tasks;
@@ -235,11 +237,9 @@ function deleteCard(event) {
     allTasksInCard => allTasksInCard.check === true
   );
   if (arrayToCompare.length === taskListContent.length) {
-    // remove that card from DOM then delete from storage also
     event.target.closest('.card').remove();
     toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
-    // don't delete the card
     var cardFooter = event.target.closest('.card__footer');
     cardFooter.children[1].classList.remove('hidden');
   }

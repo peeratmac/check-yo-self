@@ -226,8 +226,7 @@ body {
 }
 
 .card:hover {
-  box-shadow: 5px 5px 30px 7px rgba(13, 28, 48, 0.25),
-    -5px -5px 30px 7px rgba(35, 42, 112, 0.22);
+  box-shadow: 4px 4px #c7d3d8;
   transition: 0.5s;
 }
 
@@ -311,6 +310,7 @@ body {
 .card__p {
   margin-top: 0;
   margin-left: 10px;
+  margin-right: 20px;
 }
 
 .card__warning {
@@ -369,6 +369,7 @@ body {
 
   .nav {
     height: 100%;
+    min-height: 0;
   }
 
   .nav__section--filter {
