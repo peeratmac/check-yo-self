@@ -411,7 +411,6 @@ function filterByUrgency(event) {
     toDosArray.map(allToDos => appendToDo(allToDos));
   }
   searchFilter();
-  // promptToMarkToDoUrgent();
 }
 
 // Urgent Array finder listing out all the cards that is marked as urgent -- use this for prompt to find the length
@@ -430,7 +429,7 @@ function promptToMarkToDoUrgent() {
     array.length == 0
   ) {
     var urgentPrompt =
-      '<div class="empty-urgent-dataset"><p>🙊 Pro Tip: each To Do List can be marked as urgent simply by tapping the URGENT ⚡ icon!</p></div>';
+      '<div class="empty-urgent-dataset"><p><img class="prompt-urgent-img" src="images/prompt-urgent.svg" alt="Priority/Urgent Icon" /></p><p>🙊 Pro Tip: each To Do List can be marked as urgent simply by tapping the URGENT ⚡ icon!</p></div>';
     main.insertAdjacentHTML('afterbegin', urgentPrompt);
   }
 }

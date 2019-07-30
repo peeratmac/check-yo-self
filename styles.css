@@ -148,6 +148,12 @@ body {
   background-color: #ef4a23;
 }
 
+.nav__button--addToDo:hover,
+.nav__button--clear:hover,
+.nav__button--filter:hover {
+  box-shadow: 2px 2px #0097e6;
+}
+
 .nav__button--filter--filterON {
   background-color: #ef4a23;
 }
@@ -186,6 +192,10 @@ body {
   margin-right: 10px;
 }
 
+.temp__p {
+  margin: 10px;
+}
+
 /* MAIN CARD AREA */
 
 .empty-dataset,
@@ -215,6 +225,12 @@ body {
   font-size: 24px;
 }
 
+.card:hover {
+  box-shadow: 5px 5px 30px 7px rgba(13, 28, 48, 0.25),
+    -5px -5px 30px 7px rgba(35, 42, 112, 0.22);
+  transition: 0.5s;
+}
+
 .card__header {
   border-bottom: 2px solid #c7d3d8;
   padding-left: 10px;
@@ -237,6 +253,10 @@ body {
   margin-top: 5px;
 }
 
+.card__checkbox--img:hover {
+  transform: scale(1.2);
+}
+
 .card__footer {
   display: flex;
   font-size: 12px;
@@ -248,6 +268,11 @@ body {
   display: flex;
   flex-direction: column;
   padding-left: 15px;
+}
+
+.card__urgent:hover,
+.card__delete:hover {
+  transform: scale(1.2);
 }
 
 .card__delete {
@@ -314,6 +339,11 @@ body {
 
 .urgent .card__footer__urgent--text {
   color: #ef4a23;
+}
+
+.prompt-todo-img,
+.prompt-urgent-img {
+  width: 150px;
 }
 
 .hidden {
