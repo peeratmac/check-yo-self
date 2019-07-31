@@ -73,7 +73,6 @@ body {
   font-size: 18px;
 }
 
-/* current task items appear here */
 .nav__form__section--tasks {
   margin-top: 20px;
   margin-bottom: 40px;
@@ -312,8 +311,8 @@ body {
 
 .card__warning {
   color: #ef4a23;
-  margin-top: 20px;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .true {
@@ -344,6 +343,10 @@ body {
 }
 
 .hidden {
+  display: none;
+}
+
+.hidden-card-warning {
   display: none;
 }
 

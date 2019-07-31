@@ -241,7 +241,10 @@ function deleteCard(event) {
 // Delete warning message to complete all tasks
 function deleteWarningMessage(event) {
   var cardFooter = event.target.closest('.card__footer');
-  cardFooter.children[1].classList.remove('hidden');
+  cardFooter.children[1].classList.remove('hidden-card-warning');
+  setTimeout(function() {
+    cardFooter.children[1].classList.add('hidden-card-warning');
+  }, 3000);
 }
 
 // Delete Icon Style Change (if all the tasks are checked off)
@@ -346,7 +349,7 @@ function appendToDo(object) {
       />
       <p class="card__footer__urgent--text">URGENT</p>
     </div>
-    <div class="card__warning hidden"><p>Please complete all tasks🥺</p></div>
+    <div class="card__warning hidden-card-warning"><p>Please complete all tasks🥺</p></div>
     <div class="card__delete">
       <img class="card__delete--img" src=${checkDeleteImageOnLoad(
         object
