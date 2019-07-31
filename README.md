@@ -28,7 +28,9 @@
 
 ### Recreated from Specification
 
-![full-page-1](screenshots/full-screen-with-temp-tasks.png 'Full Screen with Some Tasks in composing ToDo phase')
+![full-screen-main](screenshots/full-screen-main.png 'Full Screen Main Area')
+
+![half-page](screenshots/half-screen-with-temp-tasks.png 'Full Screen with Some Tasks in composing ToDo phase')
 
 ![half-page-1](screenshots/half-screen-urgency-filtered.png 'Shrunken to approximately half screen size')
 
