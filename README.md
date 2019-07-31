@@ -2,7 +2,7 @@
 
 ## [CHECK YO'SELF Live Site - Click Here](https://peeratmac.github.io/check-yo-self/)
 
-### Solo Final Project by [Peerat Sukcharoenyingyong](https://github.com/peeratmac)
+### Final Project by [Peerat Sukcharoenyingyong](https://github.com/peeratmac)
 
 ## Learning Goals
 
@@ -26,12 +26,6 @@
 
 ## Screenshots
 
-### Product Specification
-
-![spec-desktop](screenshots/check-yo-self-spec.jpg 'Desktop Spec')
-
-![spec-mobile](screenshots/check-yo-self-spec-mobile.jpg 'Mobile Spec')
-
 ### Recreated from Specification
 
 ![full-page-1](screenshots/full-screen-with-temp-tasks.png 'Full Screen with Some Tasks in composing ToDo phase')
@@ -39,3 +33,9 @@
 ![half-page-1](screenshots/half-screen-urgency-filtered.png 'Shrunken to approximately half screen size')
 
 ![mobile-1](screenshots/mobile-layout-full-screen.png 'Mobile Layout')
+
+### Product Specification
+
+![spec-desktop](screenshots/check-yo-self-spec.jpg 'Desktop Spec')
+
+![spec-mobile](screenshots/check-yo-self-spec-mobile.jpg 'Mobile Spec')
