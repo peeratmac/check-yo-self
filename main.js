@@ -219,17 +219,11 @@ function markCardUrgent(event) {
 }
 
 function handleCardStyle(event) {
-  // var cardIndex = getCardIndex(event);
-  // if (toDosArray[cardIndex].urgent) {
-  //   event.target.closest('.card').classList.add('card', 'urgent');
-  // } else {
-  //   event.target.closest('.card').classList.remove('urgent');
-  // }
   var card = event.target.closest('.card');
   card.classList.toggle('urgent');
 }
 
-// Delete Card/ToDo (only if eve)
+// Delete Card/ToDo (condition to only delete if all tasks are checked off)
 function deleteCard(event) {
   var cardIndex = getCardIndex(event);
   var taskListContent = toDosArray[cardIndex].tasks;
@@ -240,9 +234,14 @@ function deleteCard(event) {
     event.target.closest('.card').remove();
     toDosArray[cardIndex].deleteFromStorage(cardIndex);
   } else {
-    var cardFooter = event.target.closest('.card__footer');
-    cardFooter.children[1].classList.remove('hidden');
+    deleteWarningMessage(event);
   }
+}
+
+// Delete warning message to complete all tasks
+function deleteWarningMessage(event) {
+  var cardFooter = event.target.closest('.card__footer');
+  cardFooter.children[1].classList.remove('hidden');
 }
 
 // Delete Icon Style Change (if all the tasks are checked off)
@@ -349,7 +348,9 @@ function appendToDo(object) {
     </div>
     <div class="card__warning hidden"><p>Please complete all tasks🥺</p></div>
     <div class="card__delete">
-      <img class="card__delete--img" src="images/delete.svg" alt="" />
+      <img class="card__delete--img" src=${checkDeleteImageOnLoad(
+        object
+      )} alt="" />
       <p class="card__footer__delete--text">DELETE</p>
     </div>
   </footer>
@@ -374,6 +375,18 @@ function addTasksToCard(toDo) {
       }</p></div>`;
   }
   return navListOfTasks;
+}
+
+// Check Delete Image to show the correct icon on load (check whether all tasks are checked off)
+function checkDeleteImageOnLoad(toDo) {
+  var tasksCompleted = toDo.tasks.filter(
+    allTasksInCard => allTasksInCard.check === true
+  );
+  if (tasksCompleted.length == toDo.tasks.length) {
+    return 'images/delete-active.svg';
+  } else {
+    return 'images/delete.svg';
+  }
 }
 
 // Search through ToDos and Tasks (also check whether card is urgent)
