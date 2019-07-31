@@ -12,7 +12,6 @@ body {
     'nav main main';
   grid-template-columns: 30% 1fr 1fr;
   height: 100%;
-  /* width: 100%; */
 }
 
 .header {
