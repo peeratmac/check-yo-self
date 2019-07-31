@@ -1,8 +1,6 @@
-// * Global Variables
 var toDosArray = [];
 var tasksArray = [];
 
-// * Query Selectors
 var navigationAside = document.querySelector('.nav');
 var newToDoTitleInput = document.querySelector(
   '.nav__form__section__input--title'
@@ -20,21 +18,16 @@ var emptyUrgentDataSet = document.querySelector('.empty-urgent-dataset');
 var main = document.querySelector('.main');
 var searchBox = document.querySelector('.header__form__input--search');
 
-// * Event Listeners
 navigationAside.addEventListener('click', navHandlers);
 newToDoTitleInput.addEventListener('keyup', inputHandlers);
 newTaskItemInput.addEventListener('keyup', inputHandlers);
 main.addEventListener('click', mainHandlers);
 searchBox.addEventListener('keyup', searchFilter);
 
-// * On Page Load
 reInstantiateAll();
 disableButtons();
 promptToCreateToDo();
 
-// * Functions
-
-// Foundations to get ID and Index (from cards, tasks inside the card, and tasks on the temporary div in the nav aside)
 function getCardIndex(event) {
   var index = event.target.closest('.card').getAttribute('data-id');
   return toDosArray.findIndex(function(card) {
@@ -55,7 +48,6 @@ function getTasksToBeAddedIndex(taskID) {
   });
 }
 
-// Delete tasks (nav aside) as they are stack up during initial composing phase
 function deleteTasksToBeAdded(event) {
   var task = event.target.closest('.temp__div');
   var taskID = task.getAttribute('data-id');
@@ -77,7 +69,6 @@ function clearInput(event) {
   }
 }
 
-// Enable and Disable the Make Todo and Clear All buttons
 function enableButtons() {
   addToDoItemButton.disabled = false;
   clearAllButton.disabled = false;
@@ -88,7 +79,6 @@ function disableButtons() {
   clearAllButton.disabled = true;
 }
 
-// Reinstantiation of todos and tasks
 function reInstantiateAll() {
   var toDosArray1 = JSON.parse(localStorage.getItem('toDoObjects')) || [];
   toDosArray1.forEach(function(oldToDoObject) {
@@ -96,7 +86,6 @@ function reInstantiateAll() {
   });
 }
 
-// Handle for everything on the navigation aside part
 function navHandlers(event) {
   event.preventDefault();
   if (event.target === addToDoItemButton) {
@@ -119,7 +108,6 @@ function navHandlers(event) {
   addTaskItemButtonStyle();
 }
 
-// Handle for Inputs (except the searchbox)
 function inputHandlers() {
   if (newToDoTitleInput.value == '' || tasksArray.length == 0) {
     disableButtons();
@@ -133,7 +121,6 @@ function inputHandlers() {
   promptToCreateToDo();
 }
 
-// Change add icon to give users visual cue
 function addTaskItemButtonStyle() {
   if (newTaskItemInput.value != '' && newToDoTitleInput.value != '') {
     addTaskItemButton.style.backgroundColor = '#1f1f3d';
@@ -142,7 +129,6 @@ function addTaskItemButtonStyle() {
   }
 }
 
-// Handle for Main card area
 function mainHandlers() {
   event.preventDefault();
   if (event.target.className === 'card__checkbox--img') {
@@ -157,7 +143,6 @@ function mainHandlers() {
   promptToCreateToDo();
 }
 
-// Prompt to create To Do
 function promptToCreateToDo() {
   if (toDosArray.length > 0) {
     emptyDataSet.classList.add('hidden');
@@ -166,12 +151,10 @@ function promptToCreateToDo() {
   }
 }
 
-// Main -- checkbox function inside the card
 function checkboxCheck(event) {
   var cardIndex = getCardIndex(event);
   var eachTaskIndex = getTaskIndex(event, cardIndex);
   var checkbox = toDosArray[cardIndex].tasks[eachTaskIndex].check;
-  // checkbox check true > false or false > true
   checkbox = !checkbox;
   toDosArray[cardIndex].updateTask(eachTaskIndex, checkbox);
   checkboxImgChange(event, cardIndex, eachTaskIndex);
@@ -202,7 +185,6 @@ function checkboxTextStyleChange(event, cardIndex, eachTaskIndex) {
   }
 }
 
-// Urgent or Not
 function markCardUrgent(event) {
   var cardIndex = getCardIndex(event);
   var urgentImage = event.target.closest('.card__urgent--img');
@@ -223,7 +205,6 @@ function handleCardStyle(event) {
   card.classList.toggle('urgent');
 }
 
-// Delete Card/ToDo (condition to only delete if all tasks are checked off)
 function deleteCard(event) {
   var cardIndex = getCardIndex(event);
   var taskListContent = toDosArray[cardIndex].tasks;
@@ -238,7 +219,6 @@ function deleteCard(event) {
   }
 }
 
-// Delete warning message to complete all tasks
 function deleteWarningMessage(event) {
   var cardFooter = event.target.closest('.card__footer');
   cardFooter.children[1].classList.remove('hidden-card-warning');
@@ -247,7 +227,6 @@ function deleteWarningMessage(event) {
   }, 3000);
 }
 
-// Delete Icon Style Change (if all the tasks are checked off)
 function deleteIconStyleChange(event, cardIndex) {
   var cardIndex = getCardIndex(event);
   var tasksInCard = toDosArray[cardIndex].tasks;
@@ -266,7 +245,6 @@ function deleteIconStyleChange(event, cardIndex) {
   }
 }
 
-// New ToDo
 function newToDo(event) {
   if (newToDoTitleInput.value !== '' && tasksArray.length != 0) {
     event.preventDefault();
@@ -283,7 +261,6 @@ function newToDo(event) {
   }
 }
 
-// Re-do todos to make them object again
 function reToDo(oldToDoObject) {
   var toDo = new ToDoList(oldToDoObject);
   reTasks(toDo);
@@ -291,7 +268,6 @@ function reToDo(oldToDoObject) {
   toDosArray.push(toDo);
 }
 
-// New Task (individual tasks inside one ToDo card)
 function newTask() {
   var taskItemInput = newTaskItemInput.value;
   if (taskItemInput !== '') {
@@ -308,14 +284,12 @@ function newTask() {
   addTaskItemButtonStyle();
 }
 
-// Re-do tasks to make them object again
 function reTasks(toDo) {
   for (var i = 0; i < toDo.tasks.length; i++) {
     toDo.tasks[i] = new Task(toDo.tasks[i]);
   }
 }
 
-// Append tasks on the nav aside
 function appendTask(object) {
   if (newToDoTitleInput.value !== '') {
     var newTask = `<div class="temp__div" data-id="${object.id}">
@@ -327,7 +301,6 @@ function appendTask(object) {
   addTaskItemButtonStyle();
 }
 
-// Append ToDo card
 function appendToDo(object) {
   var urgentClass = object.urgent ? 'card urgent' : 'card';
   var urgentImageSource = object.urgent
@@ -361,7 +334,6 @@ function appendToDo(object) {
   main.insertAdjacentHTML('afterbegin', newToDo);
 }
 
-// Add individual tasks from aside to actual card of ToDos
 function addTasksToCard(toDo) {
   var navListOfTasks = '';
   for (var i = 0; i < toDo.tasks.length; i++) {
@@ -380,7 +352,6 @@ function addTasksToCard(toDo) {
   return navListOfTasks;
 }
 
-// Check Delete Image to show the correct icon on load (check whether all tasks are checked off)
 function checkDeleteImageOnLoad(toDo) {
   var tasksCompleted = toDo.tasks.filter(
     allTasksInCard => allTasksInCard.check === true
@@ -392,7 +363,6 @@ function checkDeleteImageOnLoad(toDo) {
   }
 }
 
-// Search through ToDos and Tasks (also check whether card is urgent)
 function searchFilter() {
   var search = searchBox.value.toLowerCase();
   if (
@@ -412,7 +382,6 @@ function searchFilter() {
   }
 }
 
-// Filter by Urgency
 function filterByUrgency(event) {
   var urgencyFilterClass = 'nav__button--filter--filterON';
   event.target.classList.toggle(urgencyFilterClass);
@@ -429,7 +398,6 @@ function filterByUrgency(event) {
   searchFilter();
 }
 
-// Urgent Array finder listing out all the cards that is marked as urgent -- use this for prompt to find the length
 function urgentArrayFinder() {
   var urgentArray = toDosArray.filter(
     toDosObject => toDosObject.urgent == true
@@ -437,7 +405,6 @@ function urgentArrayFinder() {
   return urgentArray;
 }
 
-// A prompt to mark cards as urgent if no cards are currently marked as urgent when filter by urgency button is clicked
 function promptToMarkToDoUrgent() {
   var array = urgentArrayFinder();
   if (
