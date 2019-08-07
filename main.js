@@ -23,10 +23,13 @@ newToDoTitleInput.addEventListener('keyup', inputHandlers);
 newTaskItemInput.addEventListener('keyup', inputHandlers);
 main.addEventListener('click', mainHandlers);
 searchBox.addEventListener('keyup', searchFilter);
+window.addEventListener('load', loadHandler);
 
-reInstantiateAll();
-disableButtons();
-promptToCreateToDo();
+function loadHandler() {
+  reInstantiateAll();
+  disableButtons();
+  promptToCreateToDo();
+}
 
 function getCardIndex(event) {
   var index = event.target.closest('.card').getAttribute('data-id');
@@ -352,6 +355,7 @@ function addTasksToCard(toDo) {
   return navListOfTasks;
 }
 
+// Need to try .every here to see
 function checkDeleteImageOnLoad(toDo) {
   var tasksCompleted = toDo.tasks.filter(
     allTasksInCard => allTasksInCard.check === true
